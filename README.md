@@ -2,6 +2,7 @@
 A modern, multi-page web application designed to help users manage their daily tasks with a personalized touch and a clean user interface.
 
 🚀 Project Overview
+
 This project, titled "Epics 25", provides a seamless flow for users to enter their details and manage a dynamic list of tasks. It features a responsive design with custom background imagery and interactive elements like celebratory animations.
 
 ✨ Key Features
