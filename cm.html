@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ToDo List with Confetti</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #bfb6c4, #c9e2ee);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    button.add-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #8dcf35;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f0f0f0;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .task-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    .task-buttons button {
+      padding: 5px 10px;
+      font-size: 18px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    #congrats {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 32px;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px 40px;
+      border-radius: 12px;
+      display: none;
+      animation: fadeOut 3s ease-in-out 2s forwards;
+      z-index: 9999;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="congrats">🎉 Congratulations! 🎉</div>
+
+  <div class="container">
+    <h2>ToDo List📝</h2>
+    <input type="text" id="taskInput" placeholder="Enter your task"  style="font-size:20px;">
+    <button class="add-btn" onclick="addTask()" style="font-size: 20px;">Add Task</button>
+    <div id="taskContainer"></div>
+  </div>
+
+  <script>
+    function addTask() {
+      const input = document.getElementById("taskInput");
+      
+      const text = input.value.trim();
+      if (!text) return;
+
+      const taskContainer = document.getElementById("taskContainer");
+
+      const taskDiv = document.createElement("div");
+      taskDiv.className = "task";
+
+      const span = document.createElement("span");
+      span.innerText = text;
+
+      const btnDiv = document.createElement("div");
+      btnDiv.className = "task-buttons";
+
+      const completeBtn = document.createElement("button");
+      completeBtn.innerText = "✓";
+      completeBtn.onclick = function () {
+        span.classList.toggle("completed");
+        if (span.classList.contains("completed")) {
+          fireConfetti();
+          showCongrats();
+        }
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "🗑";
+      deleteBtn.onclick = function () {
+        taskContainer.removeChild(taskDiv);
+      };
+
+      btnDiv.appendChild(completeBtn);
+      btnDiv.appendChild(deleteBtn);
+
+      taskDiv.appendChild(span);
+      taskDiv.appendChild(btnDiv);
+
+      taskContainer.appendChild(taskDiv);
+
+      input.value = "";
+    }
+
+    function fireConfetti() {
+      confetti({
+        particleCount: 150,
+        spread: 180,
+        origin: { y: 0.4 }
+      });
+    }
+
+    function showCongrats() {
+      const message = document.getElementById("congrats");
+      message.style.display = "block";
+      setTimeout(() => {
+        message.style.display = "none";
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
